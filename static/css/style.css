@@ -329,6 +329,41 @@ h1, h2, h3, .brand {
     font-size: 0.9rem;
 }
 
+.education {
+    background-color: var(--cream);
+    padding: 4rem 0;
+}
+
+.education-list {
+    list-style: none;
+    max-width: 680px;
+}
+
+.education-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.education-item:first-child {
+    padding-top: 0;
+}
+
+.education-item h3 {
+    font-size: 1.05rem;
+}
+
+.education-year {
+    font-family: "Space Grotesk", -apple-system, sans-serif;
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--text-muted);
+    white-space: nowrap;
+}
+
 .site-footer {
     padding: 1.5rem;
     color: var(--text-muted);

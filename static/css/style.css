@@ -181,6 +181,74 @@ h1, h2, h3, .brand {
     border: 3px solid var(--ink);
 }
 
+.section-head {
+    max-width: 560px;
+    margin-bottom: 2.5rem;
+}
+
+.section-kicker {
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-soft);
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.section-head h2 {
+    font-size: clamp(1.8rem, 3.5 vw, 2.4rem);
+}
+
+.skills {
+    background-color: var(--cream);
+    padding: 4rem 0;
+}
+
+.skills-groups {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 2rem;
+}
+
+.skill-group h3 {
+    font-size: 1.05rem;
+    margin-bottom: 0.9rem;
+}
+
+.skill-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+}
+
+.skill-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: "Space Grotesk", -apple-system, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    background-color: var(--paper);
+    border: 1px solid var(--line);
+    color: var(--ink);
+    padding: 0.4rem 0.9rem 0.4rem 0.6rem;
+    border-radius: 999px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.skill-tag:hover {
+    border-color: var(--ink);
+    transform: translateY(-2px);
+}
+
+.skill-logo {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    flex-shrink: 0;
+}
+
 .site-footer {
     padding: 1.5rem;
     color: var(--text-muted);

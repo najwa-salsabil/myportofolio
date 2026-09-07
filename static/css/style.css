@@ -101,6 +101,7 @@ h1, h2, h3, .brand {
     color: var(--text-muted);
     max-width: 480px;
     margin-bottom: 1.5rem;
+    text-align: justify;
 }
 
 .meta-list {
@@ -196,7 +197,7 @@ h1, h2, h3, .brand {
 }
 
 .section-head h2 {
-    font-size: clamp(1.8rem, 3.5 vw, 2.4rem);
+    font-size: clamp(1.8rem, 3.5vw, 2.4rem);
 }
 
 .skills {
@@ -257,70 +258,65 @@ h1, h2, h3, .brand {
     list-style: none;
     position: relative;
     max-width: 680px;
-    padding-left: 2.5rem;
 }
-
+ 
 .timeline::before {
     content: "";
     position: absolute;
-    left: 0.55rem;
+    left: calc(1.25rem - 1px);
     top: 0.4rem;
     bottom: 0.4rem;
     width: 2px;
     background-color: var(--line);
 }
-
+ 
 .timeline-item {
-    position: relative;
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    grid-template-areas:
+        "dot  year"
+        ".    body";
     padding-bottom: 2.2rem;
 }
-
+ 
 .timeline-item:last-child {
     padding-bottom: 0;
 }
-
-.timeline-item::before {
-    content: "";
-    position: absolute;
-    left: -2.5rem;
-    top: 0.1rem;
+ 
+.timeline-dot {
+    grid-area: dot;
+    align-self: center;
+    justify-self: center;
+    position: relative;
+    z-index: 1;
     width: 10px;
     height: 10px;
     border-radius: 50%;
     background-color: var(--ink);
 }
-
+ 
 .timeline-item time {
-    position: relative;
-    display: block;
-    line-height: 1;
+    grid-area: year;
+    align-self: center;
     font-family: "Space Grotesk", -apple-system, sans-serif;
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.05em;
     color: var(--ink-soft);
-    margin-bottom: 0.5rem;
 }
-
-.timeline-item time::before {
-    content: "";
-    position: absolute;
-    left: -2.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: var(--ink);
+ 
+.timeline-body {
+    grid-area: body;
+    margin-top: 0.5rem;
 }
-
+ 
 .timeline-heading {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     margin-bottom: 0.4rem;
 }
-
+ 
 .org-logo {
     width: 40px;
     height: 40px;
@@ -331,12 +327,12 @@ h1, h2, h3, .brand {
     padding: 4px;
     flex-shrink: 0;
 }
-
+ 
 .timeline-body h3 {
     font-size: 1.1rem;
     margin-bottom: 0.15rem;
 }
-
+ 
 .timeline-org {
     color: var(--text-muted);
     font-size: 0.9rem;
@@ -486,6 +482,19 @@ h1, h2, h3, .brand {
     border-top: 1px solid var(--line);
 }
 
+@media (max-width: 700px) {
+    .site-header .container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+
+    .site-header nav {
+        flex-wrap: wrap;
+        gap: 0.9rem 1.25rem;
+    }
+}
+
 @media (max-width: 600px) {
     .hero-grid {
         grid-template-columns: 1fr;
@@ -501,5 +510,19 @@ h1, h2, h3, .brand {
 
     .social-links {
         justify-content: flex-start;
+    }
+
+    .timeline-item {
+        grid-template-columns: 1.75rem 1fr;
+    }
+
+    .timeline::before {
+        left: calc(0.875rem - 1px);
+    }
+
+    .education-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.3rem;
     }
 }

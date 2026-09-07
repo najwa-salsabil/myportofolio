@@ -291,6 +291,7 @@ h1, h2, h3, .brand {
 }
 
 .timeline-item time {
+    position: relative;
     display: block;
     line-height: 1;
     font-family: "Space Grotesk", -apple-system, sans-serif;
@@ -299,6 +300,18 @@ h1, h2, h3, .brand {
     letter-spacing: 0.05em;
     color: var(--ink-soft);
     margin-bottom: 0.5rem;
+}
+
+.timeline-item time::before {
+    content: "";
+    position: absolute;
+    left: -2.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--ink);
 }
 
 .timeline-heading {
@@ -362,6 +375,58 @@ h1, h2, h3, .brand {
     font-weight: 500;
     color: var(--text-muted);
     white-space: nowrap;
+}
+
+.projects {
+    padding: 4rem 0;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+}
+
+.project-card {
+    border-left: 3px solid var(--ink);
+    background-color: var(--paper);
+    padding: 1.3rem 1.4rem;
+    box-shadow: 0 1px 0 var(--line);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 16px rgba(10, 23, 72, 0.12);
+}
+
+.project-card h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.project-card p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+}
+
+.project-tags {
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.project-tags li {
+    font-family: "Space Grotesk", -apple-system, sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.02rem;
+    color: var(--ink-soft);
+    background-color: var(--cream);
+    padding: 0.25rem 0.65rem;
+    border-radius: var(--radius);
 }
 
 .site-footer {

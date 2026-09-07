@@ -349,7 +349,6 @@ h1, h2, h3, .brand {
 
 .education-list {
     list-style: none;
-    max-width: 680px;
 }
 
 .education-item {
@@ -427,6 +426,57 @@ h1, h2, h3, .brand {
     background-color: var(--cream);
     padding: 0.25rem 0.65rem;
     border-radius: var(--radius);
+}
+
+.achievements {
+    background-color: var(--accent-dark);
+    padding: 3.5rem 0;
+}
+ 
+.achievements .section-kicker {
+    color: var(--cream);
+}
+ 
+.achievements .section-head h2 {
+    color: var(--paper);
+}
+ 
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.25rem;
+}
+ 
+.achievement-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    padding: 1.1rem 1.2rem;
+}
+ 
+.achievement-icon {
+    width: 48px;
+    height: 48px;
+    object-fit: contain;
+    background-color: var(--cream);
+    border-radius: 50%;
+    padding: 8px;
+    flex-shrink: 0;
+}
+ 
+.achievement-card h3 {
+    color: var(--paper);
+    font-size: 1rem;
+    margin-bottom: 0.2rem;
+}
+ 
+.achievement-meta {
+    color: var(--cream);
+    opacity: 0.75;
+    font-size: 0.85rem;
 }
 
 .site-footer {

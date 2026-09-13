@@ -475,6 +475,29 @@ h1, h2, h3, .brand {
     font-size: 0.85rem;
 }
 
+.achievement-description {
+    color: var(--cream);
+    opacity: 0.85;
+    font-size: 0.9rem;
+    margin-top: 0.4rem;
+}
+
+.project-link {
+    margin-top: 0.75rem;
+}
+
+.project-link a {
+    font-family: "Space Grotesk", -apple-system, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.project-link a:hover {
+    text-decoration: underline;
+}
+
 .site-footer {
     padding: 1.5rem;
     color: var(--text-muted);

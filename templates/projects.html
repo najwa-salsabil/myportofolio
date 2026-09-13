@@ -27,7 +27,7 @@
             <div class="container">
                 <div class="section-head">
                     <p class="section-kicker">Projects</p>
-                    <h2>Featured Projects</h2>
+                    <h2>Proyek yang pernah dikerjakan</h2>
                 </div>
 
                 <div class="projects-grid">
@@ -40,11 +40,15 @@
                             </ul>
                             {% if project.project_url %}
                                 <p class="project-link">
-                                    <a href="{{ project.project_url}}" target="_blank" rel="noopener">Lihat proyek &rarr;</a>
+                                    <a href="{{ project.project_url }}" target="_blank" rel="noopener">Lihat proyek &rarr;</a>
                                 </p>
                             {% endif %}
                         </article>
                     {% empty %}
+                        <p class="empty-state">
+                            Belum ada proyek yang ditambahkan.
+                        </p>
+                    {% endfor %}
                 </div>
             </div>
         </section>

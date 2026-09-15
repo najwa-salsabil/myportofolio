@@ -15,7 +15,7 @@ class MainTest(TestCase):
         self.project = Project.objects.create(
             title="Veritask AI Consulting",
             description="Melakukan riset pasar dan menyusun strategi berbasis data.",
-            category="consulting",
+            tech_stack="Consulting, Strategy",
             project_url="https://veritask.ai",
         )
         self.achievement = Achievement.objects.create(
@@ -79,7 +79,7 @@ class MainTest(TestCase):
 
         self.assertContains(response, self.project.title)
         self.assertContains(response, self.project.description)
-        self.assertContains(response, "Consulting")
+        self.assertContains(response, "Consulting, Strategy")
         self.assertContains(response, self.project.project_url)
 
     def test_empty_projects_page(self):

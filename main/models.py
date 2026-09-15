@@ -26,20 +26,12 @@ class Experience(models.Model):
         return self.ended_at is None
 
 class Project(models.Model):
-    CATEGORY_CHOICES = [
-        ('consulting', 'Consulting'),
-        ('design', 'Design'),
-        ('community', 'Community Outreach'),
-        ('technical', 'Technical'),
-        ('strategy', 'Strategy'),
-    ]
-
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    title = models.CharField(max_length=225)
+    title = models.CharField(max_length=255)
     description = models.TextField()
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='technical')
+    tech_stack = models.CharField(max_length=255, default="")
     project_url = models.URLField(blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    project_image_url = models.URLField(blank=True, max_length=500)
 
     def __str__(self):
         return self.title

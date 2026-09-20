@@ -113,13 +113,6 @@ def show_projects(request):
     }
     return render(request, "projects.html", context)
 
-def show_achievements(request):
-    context = {
-        "name": "Najwa Salsabil",
-        "achievement_list": Achievement.objects.all(),
-    }
-    return render(request, "achievements.html", context)
-
 def create_project(request):
     form = ProjectForm(request.POST or None)
 
@@ -143,3 +136,73 @@ def delete_project(request, project_id):
         return redirect("main:show_projects")
 
     return redirect("main:show_projects")
+
+def get_achievement_json(request):
+    title_query = request.GET.get("title", "").strip()
+    achievements = Achievement.objects.all()
+
+    if title_query:
+        achievements = achievements.filter(title__icontains=title_query)
+
+    achievement_json = serializers.serialize("json", achievements)
+    return HttpResponse(achievement_json, content_type="application/json")
+
+
+def show_achievements(request):
+    json_response = get_achievement_json(request)
+    achievements = serializers.deserialize(
+        "json",
+        json_response.content.decode("utf-8"),
+    )
+    achievements = [achievement.object for achievement in achievements]
+    title_query = request.GET.get("title", "").strip()
+
+    context = {
+        "name": "Najwa Salsabil",
+        "achievement_list": achievements,
+        "title_query": title_query,
+    }
+    return render(request, "achievements.html", context)
+
+
+def create_achievement(request):
+    form = AchievementForm(request.POST or None)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Pencapaian baru berhasil ditambahkan!")
+        return redirect("main:show_achievements")
+
+    context = {
+        "name": "Najwa Salsabil",
+        "form": form,
+    }
+    return render(request, "achievement_form.html", context)
+
+
+def update_achievement(request, achievement_id):
+    achievement = get_object_or_404(Achievement, pk=achievement_id)
+    form = AchievementForm(request.POST or None, instance=achievement)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Pencapaian berhasil diperbarui!")
+        return redirect("main:show_achievements")
+
+    context = {
+        "name": "Najwa Salsabil",
+        "form": form,
+        "achievement": achievement,
+    }
+    return render(request, "achievement_form.html", context)
+
+
+def delete_achievement(request, achievement_id):
+    achievement = get_object_or_404(Achievement, pk=achievement_id)
+
+    if request.method == "POST":
+        achievement.delete()
+        messages.success(request, "Pencapaian berhasil dihapus!")
+        return redirect("main:show_achievements")
+
+    return redirect("main:show_achievements")

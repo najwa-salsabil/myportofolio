@@ -4,6 +4,38 @@ NPM : 2506588701
 
 Kelas : PBP A
 
+## myportofolio
+
+Website portofolio pribadi milik Najwa Salsabil (NPM 2506588701), dibangun sebagai Proyek Individu mata kuliah Pemrograman Berbasis Platform, Semester Gasal 2026/2027.
+
+Proyek ini dikembangkan bertahap setiap minggu mengikuti materi Tutorial dan Individual Assignment, dimulai dari halaman statis HTML5/CSS3 sampai menjadi aplikasi Django lengkap dengan model, form, dan data delivery dalam format JSON.
+
+Link Portofolio: https://najwa-salsabil-myportofolio.pws.cs.ui.ac.id
+
+## Tech Stack
+Backend: Django 5.x (Python)
+Frontend: HTML5, CSS3 (skeleton template dengan Django Template Language)
+Database: SQLite (lokal), PostgreSQL (produksi di PWS)
+Deployment: Praktikum Web Server (PWS) Fasilkom UI
+
+## Project Setup Instruction
+1. Clone repository ini dan masuk ke foldernya:
+   git clone <url-repo-kamu>
+   cd myportofolio
+2. Buat dan aktifkan virtual environment:
+   python -m venv env
+3. Install dependency:
+   pip install -r requirements.txt
+4. Siapkan environment variable yang dibutuhkan (cek portofolio/settings.py untuk daftar variabel yang di-load lewat load_dotenv(), lalu buat file .env di root project sesuai kebutuhan lokal kamu).
+5. Jalankan migrasi database:
+   python manage.py migrate
+6. Jalankan server pengembangan:
+   python manage.py runserver
+7. Buka http://localhost:8000 di browser
+
+Untuk menjalankan seluruh unit test:
+python manage.py test main
+
 ### Tugas 1
 1. Saya memakai elemen HTML5 secara konsisten:<section> buat tiap blok konten utama (Profile, Skills, Experience, Education, Projects, Achievements), <article> buat item yang berdiri sendiri dan bisa diulang (tiap skill group, tiap project card, tiap achievement card), <nav> buat navigasi, <time> buat tahun di timeline Experience, dan <dl>/<dt>/<dd> buat data NPM dan Program. Elemen-elemen ini membantu banget karena browser dan screen reader jadi ngerti struktur halaman tanpa saya harus nulis banyak <div> generik, misalnya <article> nunjukkin ke browser bahwa tiap project card itu konten yang punya makna sendiri, bukan cuma pembungkus visual. Saya sengaja tidak memakai <aside> karena semua konten di halaman ini memang bagian utama dari portofolio, bukan info tambahan/sampingan.
 
@@ -38,3 +70,26 @@ Seluruh proses implementasi—mulai dari pendefinisian model, penulisan fungsi v
 1. Materi dan kode latihan Tutorial 02 Pemrograman Berbasis Platform (PBP).
 2. Dokumentasi resmi Django (Django Documentation).
 3. Catatan serta slide perkuliahan PBP Fasilkom UI.
+
+# Portfolio Web Application
+
+## Project Description
+Aplikasi web ini dibangun menggunakan framework Django untuk menampilkan data portofolio secara dinamis. Proyek ini mencakup implementasi form menggunakan ModelForm untuk input data, proteksi keamanan CSRF, serta penyediaan data dalam format JSON melalui proses serialisasi data model Django.
+
+
+### Tugas 3
+1. Alasan penggunaan ModelForm dan kewajiban menambahkan {% csrf_token %}:
+   - ModelForm digunakan agar kita tidak perlu membuat form input secara manual di HTML. ModelForm secara otomatis menghasilkan field input berdasarkan struktur atribut pada model, menjalankan validasi tipe dan panjang data secara otomatis, serta memudahkan proses penyimpanan ke database hanya dengan memanggil metode save().
+   - Penggunaan {% csrf_token %} diwajibkan sebagai proteksi keamanan dari serangan Cross-Site Request Forgery. Token acak ini memastikan bahwa permintaan POST yang dikirimkan ke server benar-benar berasal dari pengguna sah melalui form aplikasi, bukan dari skrip berbahaya situs pihak ketiga. Jika tidak disertakan, Django akan menolak permintaan dengan status 403 Forbidden.
+
+2. Alasan JSON lebih disukai dibanding XML dalam web modern:
+   - JSON memiliki sintaks yang lebih ringkas dan hemat ukuran data dibanding XML yang membutuhkan banyak tag penutup, sehingga transfer data melalui jaringan menjadi lebih cepat.
+   - JSON didukung secara bawaan oleh JavaScript, sehingga browser atau aplikasi klien dapat langsung mengubahnya menjadi objek JavaScript tanpa perlu parser eksternal yang rumit.
+   - Struktur JSON yang berbasis key-value lebih mudah dibaca dan ditulis oleh pengembang, serta telah menjadi standar utama dalam arsitektur RESTful API dan framework web modern.
+
+3. Alur pengembalian data JSON oleh fungsi view dan alasan perlunya serialization:
+   - Alurnya dimulai ketika klien mengirimkan permintaan HTTP ke endpoint tertentu. Fungsi view kemudian mengambil data objek dari database melalui Django ORM. Data objek Python tersebut diserialisasi menjadi format standar JSON, lalu dikemas ke dalam JsonResponse atau HttpResponse dengan Content-Type application/json untuk dikirimkan kembali ke klien.
+   - Serialization diperlukan karena objek model Django merupakan instance kelas Python yang kompleks dan tidak dapat ditransmisikan secara langsung melalui HTTP maupun dipahami langsung oleh bahasa pemrograman lain di sisi klien. Serialization mengubah objek internal tersebut menjadi format teks standar yang dapat dipertukarkan dan diproses oleh berbagai platform.
+
+AI Disclosure & Refleksi:
+Pada saat mengerjakan tugas ini saya tidak menggunakan AI dan anya mengikuti apa yang sudah diajarkan di tutorial. Pengerjaan tugas ini memberikan pemahaman yang lebih dalam mengenai cara Django mengelola data dari model ke tampilan pengguna dan sebaliknya. Penggunaan ModelForm terbukti menghemat banyak waktu serta mengurangi potensi kesalahan validasi jika dibandingkan menulis tag HTML satu per satu. Selain itu, pemahaman mengenai token CSRF memperjelas pentingnya standar keamanan dalam penanganan form web. Mempelajari serialisasi data ke format JSON juga memberikan gambaran nyata tentang bagaimana backend berkomunikasi dengan frontend atau layanan lain secara terstruktur.

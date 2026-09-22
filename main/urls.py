@@ -16,6 +16,10 @@ from main.views import (
     update_achievement,
     delete_achievement,
     get_achievement_json,
+    register,
+    login_user,
+    logout_user,
+    toggle_star,
 )
 
 app_name = "main"
@@ -36,4 +40,12 @@ urlpatterns = [
     path("achievements/<uuid:achievement_id>/edit/", update_achievement, name="update_achievement"),
     path("achievements/<uuid:achievement_id>/delete/", delete_achievement, name="delete_achievement"),
     path("api/achievements/", get_achievement_json, name="get_achievement_json"),
+    path("register/", register, name="register"),
+    path("login/", login_user, name="login"),
+    path("logout/", logout_user, name="logout"),
+    path(
+        "projects/<uuid:project_id>/star/",
+        toggle_star,
+        name="toggle_star",
+    ),
 ]

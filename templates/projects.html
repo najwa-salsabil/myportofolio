@@ -1,4 +1,7 @@
 {% extends 'base.html' %}
+{% block meta %}
+    <title>Project - {{ name }}</title>
+{% endblock meta %}
 {% block content %}
     <main>
         <section class="projects" id="projects">
@@ -8,10 +11,12 @@
                         <p class="section-kicker">Projects</p>
                         <h2>Proyek yang pernah dikerjakan</h2>
                     </div>
+                {% if user.is_superuser %}
                     <a href="{% url 'main:create_project' %}" class="button project-add-button">
                         <span aria-hidden="true">+</span>
                         Tambah Proyek
                     </a>
+                {% endif %}
                 </div>
 
                 <form method="get"
@@ -44,7 +49,10 @@
                                     {% if project.project_url %}
                                         <a href="{{ project.project_url }}" target="_blank" rel="noopener" class="button">Lihat proyek</a>
                                     {% endif %}
+                                {% include "components/project_star.html" with project=project %}
+                                {% if user.is_superuser %}
                                     {% include "components/project_delete_modal.html" with project=project %}
+                                {% endif %}
                                 </div>
                             </div>
                         </article>

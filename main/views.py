@@ -171,6 +171,26 @@ def delete_project(request, project_id):
 
     return redirect("main:show_projects")
 
+@login_required(login_url="/login/")
+def update_project(request, project_id):
+    if not (request.user.is_superuser or is_editor(request.user)):
+        raise PermissionDenied
+
+    project = get_object_or_404(Project, pk=project_id)
+    form = ProjectForm(request.POST or None, instance=project)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Proyek berhasil diperbarui!")
+        return redirect("main:show_projects")
+
+    context = {
+        "name": "Najwa Salsabil",
+        "form": form,
+        "project": project,
+    }
+    return render(request, "projects_form.html", context)
+
 def get_achievement_json(request):
     title_query = request.GET.get("title", "").strip()
     achievements = Achievement.objects.all()

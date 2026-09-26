@@ -93,3 +93,7 @@ Aplikasi web ini dibangun menggunakan framework Django untuk menampilkan data po
 
 AI Disclosure & Refleksi:
 Pada saat mengerjakan tugas ini saya tidak menggunakan AI dan anya mengikuti apa yang sudah diajarkan di tutorial. Pengerjaan tugas ini memberikan pemahaman yang lebih dalam mengenai cara Django mengelola data dari model ke tampilan pengguna dan sebaliknya. Penggunaan ModelForm terbukti menghemat banyak waktu serta mengurangi potensi kesalahan validasi jika dibandingkan menulis tag HTML satu per satu. Selain itu, pemahaman mengenai token CSRF memperjelas pentingnya standar keamanan dalam penanganan form web. Mempelajari serialisasi data ke format JSON juga memberikan gambaran nyata tentang bagaimana backend berkomunikasi dengan frontend atau layanan lain secara terstruktur.
+
+### Tugas 4
+AI Disclosure:
+Pada saat mengerjakan tugas ini saya tidak menggunakan AI dan anya mengikuti apa yang sudah diajarkan di tutorial.

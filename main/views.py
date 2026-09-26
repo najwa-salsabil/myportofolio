@@ -8,9 +8,12 @@ from django.http import HttpResponse
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth.decorators import login_required 
-from django.core.exceptions import PermissionDenied  
+from django.contrib.auth.decorators import login_required
+from django.core.exceptions import PermissionDenied
 import datetime
+
+def is_editor(user):
+    return user.is_authenticated and user.groups.filter(name="Editor").exists()
 
 def show_main(request):
     last_login = request.COOKIES.get('last_login', 'Belum ada sesi login / Cookie tidak ditemukan')
@@ -19,7 +22,10 @@ def show_main(request):
         "npm": "2506588701",
         "study_program": "S1 Sistem Informasi",
         "bio": (
-            "Information Systems student at Universitas Indonesia passionate about web development, technology exploration, and Business. Currently learning to build clean, functional, and scalable applications through modern web platforms. Always excited to tackle new challenges and collaborate on impactful projects."
+            "Information Systems student at Universitas Indonesia passionate about web development, "
+            "technology exploration, and Business. Currently learning to build clean, functional, and "
+            "scalable applications through modern web platforms. Always excited to tackle new challenges "
+            "and collaborate on impactful projects."
         ),
         "last_login": last_login,
     }
@@ -49,10 +55,15 @@ def show_experience(request):
         "name": "Najwa Salsabil",
         "experience_list": experiences,
         "title_query": title_query,
+        "is_editor": is_editor(request.user),
     }
     return render(request, "experience.html", context)
 
+@login_required(login_url="/login/")
 def create_experience(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    
     form = ExperienceForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
@@ -66,7 +77,11 @@ def create_experience(request):
     }
     return render(request, "experience_form.html", context)
 
+@login_required(login_url="/login/")
 def update_experience(request, experience_id):
+    if not (request.user.is_superuser or is_editor(request.user)):
+        raise PermissionDenied
+    
     experience = get_object_or_404(Experience, pk=experience_id)
     form = ExperienceForm(request.POST or None, instance=experience)
 
@@ -82,7 +97,11 @@ def update_experience(request, experience_id):
     }
     return render(request, "experience_form.html", context)
 
+@login_required(login_url="/login/")
 def delete_experience(request, experience_id):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    
     experience = get_object_or_404(Experience, pk=experience_id)
 
     if request.method == "POST":
@@ -116,6 +135,7 @@ def show_projects(request):
         "name": "Najwa Salsabil",
         "project_list": projects,
         "title_query": title_query,
+        "is_editor": is_editor(request.user),
     }
     return render(request, "projects.html", context)
 
@@ -128,15 +148,16 @@ def create_project(request):
 
     if request.method == "POST" and form.is_valid():
         form.save()
-        messages.success(request, "Proyek baru berhasil ditambahkan!")
+        messages.success(request, "New project successfully added!")
         return redirect("main:show_projects")
 
     context = {
-        "name": "Najwa",
+        "name": "Najwa Salsabil",
         "form": form,
     }
     return render(request, "projects_form.html", context)
 
+@login_required(login_url="/login/")
 def delete_project(request, project_id):
     if not request.user.is_superuser:
         raise PermissionDenied
@@ -145,7 +166,7 @@ def delete_project(request, project_id):
 
     if request.method == "POST":
         project.delete()
-        messages.success(request, "Project berhasil dihapus!")
+        messages.success(request, "Project successfully deleted!")
         return redirect("main:show_projects")
 
     return redirect("main:show_projects")
@@ -174,16 +195,20 @@ def show_achievements(request):
         "name": "Najwa Salsabil",
         "achievement_list": achievements,
         "title_query": title_query,
+        "is_editor": is_editor(request.user),
     }
     return render(request, "achievements.html", context)
 
-
+@login_required(login_url="/login/")
 def create_achievement(request):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    
     form = AchievementForm(request.POST or None)
 
     if request.method == "POST" and form.is_valid():
         form.save()
-        messages.success(request, "Pencapaian baru berhasil ditambahkan!")
+        messages.success(request, "New achievement has been successfully added!")
         return redirect("main:show_achievements")
 
     context = {
@@ -192,14 +217,17 @@ def create_achievement(request):
     }
     return render(request, "achievement_form.html", context)
 
-
+@login_required(login_url="/login/")
 def update_achievement(request, achievement_id):
+    if not (request.user.is_superuser or is_editor(request.user)):
+        raise PermissionDenied
+    
     achievement = get_object_or_404(Achievement, pk=achievement_id)
     form = AchievementForm(request.POST or None, instance=achievement)
 
     if request.method == "POST" and form.is_valid():
         form.save()
-        messages.success(request, "Pencapaian berhasil diperbarui!")
+        messages.success(request, "Achievement successfully updated!")
         return redirect("main:show_achievements")
 
     context = {
@@ -209,13 +237,16 @@ def update_achievement(request, achievement_id):
     }
     return render(request, "achievement_form.html", context)
 
-
+@login_required(login_url="/login/")
 def delete_achievement(request, achievement_id):
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    
     achievement = get_object_or_404(Achievement, pk=achievement_id)
 
     if request.method == "POST":
         achievement.delete()
-        messages.success(request, "Pencapaian berhasil dihapus!")
+        messages.success(request, "Achievement successfully deleted!")
         return redirect("main:show_achievements")
 
     return redirect("main:show_achievements")
@@ -225,7 +256,7 @@ def register(request):
 
     if request.method == "POST" and form.is_valid():
         form.save()
-        messages.success(request, "Akun berhasil dibuat. Silahkan login.")
+        messages.success(request, "Account successfully created. Please log in.")
         return redirect("main:login")
 
     context = {
@@ -261,8 +292,6 @@ def toggle_star(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
 
     if request.method == "POST":
-        # Kalau akun ini sudah pernah memberi star, batalkan star-nya.
-        # Kalau belum, tambahkan star.
         if request.user in project.starred_by.all():
             project.starred_by.remove(request.user)
         else:

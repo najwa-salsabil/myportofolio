@@ -11,10 +11,12 @@
                         <p class="section-kicker">Achievements</p>
                         <h2>Pencapaian</h2>
                     </div>
-                    <a href="{% url 'main:create_achievement' %}" class="button project-add-button">
-                        <span aria-hidden="true">+</span>
-                        Tambah Pencapaian
-                    </a>
+                    {% if user.is_superuser %}
+                        <a href="{% url 'main:create_achievement' %}" class="button project-add-button">
+                            <span aria-hidden="true">+</span>
+                            Tambah Pencapaian
+                        </a>
+                    {% endif %}
                 </div>
 
                 <div class="achievements-grid">
@@ -26,12 +28,16 @@
                                 {% if achievement.description %}
                                     <p class="achievement-description">{{ achievement.description }}</p>
                                 {% endif %}
-                                <div class="project-card-actions">
-                                    <div class="project-actions">
-                                        <a href="{% url 'main:update_achievement' achievement.id %}" class="button button-secondary">Edit</a>
-                                        {% include "components/achievement_delete_modal.html" with achievement=achievement %}
+                                {% if user.is_superuser or is_editor %}
+                                    <div class="project-card-actions">
+                                        <div class="project-actions">
+                                            <a href="{% url 'main:update_achievement' achievement.id %}" class="button button-secondary">Edit</a>
+                                            {% if user.is_superuser %}
+                                                {% include "components/achievement_delete_modal.html" with achievement=achievement %}
+                                            {% endif %}
+                                        </div>
                                     </div>
-                                </div>
+                                {% endif %}
                             </div>
                         </article>
                     {% empty %}

@@ -25,6 +25,7 @@
 }
 
 body {
+    overflow-x: hidden;
     font-family: "Manrope", -apple-system, sans-serif;
     color: var(--ink);
     background-color: var(--bg);
@@ -130,8 +131,9 @@ h1, h2, h3, .brand {
 }
 
 .hero {
-    padding: 5.5rem 0 5rem;
+    padding: 6rem 0 5rem;
     position: relative;
+    overflow: visible;
 }
 
 .hero-grid {
@@ -141,6 +143,32 @@ h1, h2, h3, .brand {
         "identity photo"
         "details  photo";
     gap: 1.5rem 3rem;
+    position: relative;
+    z-index: 1;
+}
+
+.hero-glow {
+    position: absolute;
+    z-index: 0;
+    border-radius: 50%;
+    filter: blur(70px);
+    pointer-events: none;
+}
+
+.hero-glow--violet {
+    top: -11rem;
+    left: -9rem;
+    width: 26rem;
+    height: 26rem;
+    background: radial-gradient(circle, rgba(140, 110, 255, 0.32), transparent 70%);
+}
+
+.hero-glow--teal {
+    bottom: -10rem;
+    right: -8rem;
+    width: 24rem;
+    height: 24rem;
+    background: radial-gradient(circle, rgba(93, 125, 255, 0.28), transparent 70%);
 }
 
 .hero-identity {
@@ -241,6 +269,7 @@ h1, h2, h3, .brand {
     grid-area: photo;
     align-self: center;
     position: relative;
+    margin-right: -1.5rem;
 }
 
 .photo-block {
@@ -260,11 +289,14 @@ h1, h2, h3, .brand {
     z-index: 1;
     display: block;
     width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: cover;
-    border-radius: var(--radius);
-    border: 1px solid var(--card-border);
-    box-shadow: 0 25px 60px -20px rgba(93, 125, 255, 0.45), 0 0 0 1px rgba(255,255,255,0.04);
+    max-width: 420px;
+    margin-left: auto;
+    aspect-ratio: 4 / 5;
+    object-fit: contain;
+    object-position: bottom;
+    filter: drop-shadow(0 25px 45px rgba(93, 125, 255, 0.35));
+    -webkit-mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 78%, transparent 100%);
 }
 
 .section-head {

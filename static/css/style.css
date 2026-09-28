@@ -1262,6 +1262,101 @@ h1, h2, h3, .brand {
     box-shadow: 0 12px 40px -10px rgba(0,0,0,0.65), 0 0 30px var(--glow);
 }
 
+.tools-grid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+    position: relative;
+    isolation: isolate;
+}
+
+.tools-grid::before {
+    content: "";
+    position: absolute;
+    inset: -2rem -1rem;
+    background: radial-gradient(60% 70% at 50% 50%, rgba(93, 125, 255, 0.2), transparent 70%);
+    filter: blur(24px);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.tool-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    padding: 1.25rem 0.5rem 1rem;
+    background: linear-gradient(165deg, rgba(226, 232, 255, 0.78) 0%, rgba(160, 178, 255, 0.5) 100%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid rgba(180, 196, 255, 0.45);
+    border-radius: 16px;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.55) inset,
+        0 14px 30px -20px rgba(0, 0, 0, 0.75);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.tool-card::after {
+    content: "";
+    position: absolute;
+    left: 20%;
+    right: 20%;
+    bottom: 0;
+    height: 3px;
+    border-radius: 3px 3px 0 0;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.tool-card:hover {
+    transform: translateY(-6px);
+    background: linear-gradient(165deg, rgba(236, 240, 255, 0.9) 0%, rgba(176, 192, 255, 0.62) 100%);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.6) inset,
+        0 26px 50px -18px var(--glow),
+        0 0 0 1px rgba(150, 171, 255, 0.7);
+}
+
+.tool-card:hover::after {
+    opacity: 1;
+}
+
+.tool-logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.tool-card:hover .tool-logo {
+    transform: scale(1.12);
+}
+
+.tool-card span {
+    font-family: "Manrope", sans-serif;
+    color: #1a2040;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.03em;
+}
+
+@media (max-width: 720px) {
+    .tools-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0.8rem;
+    }
+
+    .tool-card {
+        padding: 1.5rem 0.75rem 1.2rem;
+    }
+}
+
 @media (max-width: 600px) {
     .contact-widget {
         right: 1rem;

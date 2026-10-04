@@ -143,3 +143,15 @@ class AchievementForm(ModelForm):
                 }
             ),
         }
+
+    def clean_title(self):
+        title = strip_tags(self.cleaned_data["title"]).strip()
+        if not title:
+            raise ValidationError("Nama pencapaian tidak boleh hanya berisi tag HTML.")
+        return title
+
+    def clean_rank(self):
+        return strip_tags(self.cleaned_data["rank"]).strip()
+
+    def clean_description(self):
+        return strip_tags(self.cleaned_data.get("description", "")).strip()

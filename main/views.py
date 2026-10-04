@@ -209,28 +209,32 @@ def update_project(request, project_id):
 
 def get_achievement_json(request):
     title_query = request.GET.get("title", "").strip()
-    achievements = Achievement.objects.all()
+    achievements = Achievement.objects.all().order_by("-year")
 
     if title_query:
         achievements = achievements.filter(title__icontains=title_query)
 
-    achievement_json = serializers.serialize("json", achievements)
-    return HttpResponse(achievement_json, content_type="application/json")
+    data = []
+    for achievement in achievements:
+        data.append({
+            "pk": str(achievement.id),
+            "fields": {
+                "title": achievement.title,
+                "rank": achievement.rank,
+                "year": achievement.year,
+                "description": achievement.description,
+            }
+        })
 
+    return JsonResponse(data, safe=False)
 
 def show_achievements(request):
-    json_response = get_achievement_json(request)
-    achievements = serializers.deserialize(
-        "json",
-        json_response.content.decode("utf-8"),
-    )
-    achievements = [achievement.object for achievement in achievements]
     title_query = request.GET.get("title", "").strip()
 
     context = {
         "name": "Najwa Salsabil",
-        "achievement_list": achievements,
         "title_query": title_query,
+        "form": AchievementForm(),
         "is_editor": is_editor(request.user),
     }
     return render(request, "achievements.html", context)
@@ -286,6 +290,24 @@ def delete_achievement(request, achievement_id):
         return redirect("main:show_achievements")
 
     return redirect("main:show_achievements")
+
+@require_POST
+def create_achievement_ajax(request):
+    if not request.user.is_superuser:
+        return JsonResponse(
+            {"message": "Hanya pemilik portofolio yang dapat menambahkan pencapaian."},
+            status=403,
+        )
+
+    form = AchievementForm(request.POST)
+    if form.is_valid():
+        achievement = form.save()
+        return JsonResponse(
+            {"message": "Pencapaian berhasil ditambahkan.", "pk": str(achievement.id)},
+            status=201,
+        )
+
+    return JsonResponse({"errors": form.errors.get_json_data()}, status=400)
 
 def register(request):
     form = UserCreationForm(request.POST or None)

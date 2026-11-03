@@ -75,18 +75,20 @@ class MainTest(TestCase):
         self.assertTemplateUsed(response, "projects.html")
 
     def test_projects_page_shows_data(self):
-        response = self.client.get(reverse("main:show_projects"))
+        response = self.client.get(reverse("api:project-list"))
 
-        self.assertContains(response, self.project.title)
-        self.assertContains(response, self.project.description)
-        self.assertContains(response, "Consulting, Strategy")
-        self.assertContains(response, self.project.project_url)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.data[0]["title"], self.project.title)
+        self.assertEqual(response.data[0]["description"], self.project.description)
+        self.assertEqual(response.data[0]["tech_stack"], "Consulting, Strategy")
+        self.assertEqual(response.data[0]["project_url"], self.project.project_url)
 
     def test_empty_projects_page(self):
         Project.objects.all().delete()
         response = self.client.get(reverse("main:show_projects"))
 
-        self.assertContains(response, "Belum ada proyek yang ditambahkan.")
+        self.assertContains(response, "Belum ada proyek yang ditambahkan atau ditemukan.")
+        self.assertEqual(self.client.get(reverse("api:project-list")).data, [])
 
     def test_achievements_url_is_accessible(self):
         response = self.client.get(reverse("main:show_achievements"))
@@ -95,14 +97,16 @@ class MainTest(TestCase):
         self.assertTemplateUsed(response, "achievements.html")
 
     def test_achievements_page_shows_data(self):
-        response = self.client.get(reverse("main:show_achievements"))
+        response = self.client.get(reverse("main:get_achievement_json"))
+        item = response.json()[0]["fields"]
 
-        self.assertContains(response, self.achievement.title)
-        self.assertContains(response, self.achievement.rank)
-        self.assertContains(response, str(self.achievement.year))
+        self.assertEqual(item["title"], self.achievement.title)
+        self.assertEqual(item["rank"], self.achievement.rank)
+        self.assertEqual(item["year"], self.achievement.year)
 
     def test_empty_achievements_page(self):
         Achievement.objects.all().delete()
         response = self.client.get(reverse("main:show_achievements"))
 
-        self.assertContains(response, "Belum ada pencapaian yang ditambahkan.")
+        self.assertContains(response, "Belum ada pencapaian yang ditambahkan atau ditemukan.")
+        self.assertEqual(self.client.get(reverse("main:get_achievement_json")).json(), [])

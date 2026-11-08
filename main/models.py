@@ -47,6 +47,9 @@ class Achievement(models.Model):
     year = models.PositiveIntegerField()
     description = models.TextField(blank=True)
     achieved_at = models.DateTimeField(auto_now_add=True)
+    starred_by = models.ManyToManyField(
+        User, related_name="starred_achievements", blank=True
+    )
 
     def __str__(self):
         return self.title

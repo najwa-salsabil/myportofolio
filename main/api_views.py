@@ -123,3 +123,11 @@ def achievement_star(request, achievement_id):
         achievement.starred_by.add(request.user)
     serializer = AchievementSerializer(achievement, context={"request": request})
     return Response(serializer.data)
+
+@api_view(["POST"])
+@permission_classes([IsAuthenticated])
+def api_logout(request):
+    """Mencabut token milik pengguna yang sedang login."""
+    if request.auth is not None:
+        request.auth.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)
